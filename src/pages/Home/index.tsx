@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom"
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 
 export const Home = () => {
     const navigate = useNavigate()
     const [tarefa, setTarefa] = useState("");
     const [tarefas, setTarefas] = useState<string[]>([]);
+    const [numPagina, setNumPagina] = useState("");
 
     useEffect(() => {
         const tarefasSalvas = localStorage.getItem("tarefas");
@@ -23,6 +24,7 @@ export const Home = () => {
             setTarefa("");
         }
     };
+
     return (
         <>
             <h1>Bem vindo a nossa pagina da chopi</h1>
@@ -30,15 +32,26 @@ export const Home = () => {
             <button className="btn btn-primary"
                 onClick={
                     () => {
-                        navigate('/login/Geovane')
+                        navigate('/login/ Bem Vindo Geovane')
                     }
                 }>Navegar Para a Pagina de Login</button>
             <br />
             <br />
             <br />
+              <input type="text"
+              placeholder="Digite o Número da Página Sobre"
+              style={{width: "250px"}}
+              value = {numPagina}
+              onChange={(e) =>setNumPagina(e.target.value)}
+              />
+              <br />
             <button className="btn btn-info"
                 onClick={() => {
-                    navigate('/sobre/15')
+                    if (numPagina.trim() !=="" && !isNaN(Number(numPagina))){
+                    navigate(`/sobre/${numPagina}`);
+                    } else {
+                        alert("Digite um número válido zé mané")
+                    }
                 }
                 }>Navegar Para a Página Sobre</button>
             <br />
