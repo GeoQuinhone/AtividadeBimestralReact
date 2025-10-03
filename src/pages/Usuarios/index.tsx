@@ -1,32 +1,27 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
 
-const usuarios = [
-    {
-        "id": 1,
-        "nome": "Leo",
-        "email": "costela@gmail.com",
-    },
-    {
-        "id": 2,
-        "nome": "Geovane",
-        "email": "quinhone@gmail.com"
-    },
-    {
-        "id": 3,
-        "nome": "Claudio",
-        "email": "claudioemail@gmail.com"
-    },
-    {
-        "id": 4,
-        "nome": "dudu",
-        "email": "duduone@gmail.com"
-    }
-]
+interface iUsuario {
+    id: number;
+    nome: string;
+    email: string;
+}
 
 export const Usuario = () => {
+    const navigate = useNavigate();
+    const [usuarios, setUsuarios] = useState<iUsuario[]>([])
     useEffect(() => {
-        //requisição no backend
+        axios.get('http://localhost:3001/usuarios')
+            .then((resposta) => {
+                setUsuarios(resposta.data)
+                console.log("Deu certo!")
+            })
+            .catch((erro) => {
+                console.log(erro)
+            })
     }, [])
+
     return (
         <>
             <div
@@ -40,8 +35,17 @@ export const Usuario = () => {
                 <button
                     className='btn btn-success'
                     type="button"
+                    onClick={() => {
+                        navigate('/usuarios/criar')
+                    }}
                 >
                     Add
+                </button>
+                <button
+                    className="btn btn-danger"
+                    onClick={() => navigate('/')}
+                >
+                    Voltar
                 </button>
             </div>
             <table className="table">
@@ -54,32 +58,33 @@ export const Usuario = () => {
                     </tr>
                 </thead>
                 <tbody>
-
-                    {
-                        usuarios.map((usuario, index) => {
-                            return (
-                                <tr key={index}>
-                                    <th scope="row">{usuario.id}</th>
-                                    <td>{usuario.nome}</td>
-                                    <td>{usuario.email}</td>
-                                    <td>
-                                        <button
-                                        className = "btn btn-primary"
-                                        type = "button"
-                                        style = {{
-                                            marginRight: 5
-                                        }}> Editar </button>
-                                        <button
-                                            className = "btn btn-danger"
-                                            type = "button"
-                                        >Excluir</button>
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    }
+                    {usuarios.map((usuario) => (
+                        <tr key={usuario.id}>
+                            <th scope="row">{usuario.id}</th>
+                            <td>{usuario.nome}</td>
+                            <td>{usuario.email}</td>
+                            <td>
+                                <button
+                                    className="btn btn-primary"
+                                    type="button"
+                                    style={{ marginRight: 5 }}
+                                    onClick={() => {
+                                        navigate(`/usuarios/${usuario.id}`) // templateliterals aceita enter, aceita variaveis js dentro dele
+                                    }}
+                                >
+                                    Editar
+                                </button>
+                                <button
+                                    className="btn btn-danger"
+                                    type="button"
+                                >
+                                    Excluir
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
-            </table>
+            </table >
         </>
     )
 }

@@ -10,6 +10,8 @@ import { Login } from './../pages/Login'
 import { Produtos } from './../pages/Produtos'
 import { Usuario } from './../pages/Usuarios'
 import { Sobre } from './../pages/Sobre'
+import { GerenciarUsuarios } from '../pages/Usuarios/Gerenciar'
+
 
 export const Rotas = () => {
 
@@ -21,12 +23,11 @@ export const Rotas = () => {
                 <Route path='/produtos' element={<Produtos />} />
                 <Route path='/usuarios' element={<Usuario />} />
                 <Route path='/sobre/:id' element={<Sobre />} />
+                <Route path='/usuarios/:id' element={<GerenciarUsuarios/>}/>
 
-                <Route path='*' element={<h1>Error: 404 Página não encontrada mané</h1>} />
-
+                <Route path='*' element={<h1>Error: 404 Página não encontrada mané</h1>}/>
             </Routes>
         </BrowserRouter>
-
     )
 }
 

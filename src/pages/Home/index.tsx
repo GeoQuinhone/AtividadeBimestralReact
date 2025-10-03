@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 
 export const Home = () => {
     const navigate = useNavigate()
@@ -38,17 +38,26 @@ export const Home = () => {
             <br />
             <br />
             <br />
-              <input type="text"
-              placeholder="Digite o Número da Página Sobre"
-              style={{width: "250px"}}
-              value = {numPagina}
-              onChange={(e) =>setNumPagina(e.target.value)}
-              />
-              <br />
+            <button className="btn btn-primary"
+                onClick={
+                    () => {
+                        navigate('/usuarios')
+                    }
+                }>Navegar Para a Pagina de Usuarios</button>
+            <br />
+            <br />
+            <br />
+            <input type="text"
+                placeholder="Digite o Número da Página Sobre"
+                style={{ width: "250px" }}
+                value={numPagina}
+                onChange={(e) => setNumPagina(e.target.value)}
+            />
+            <br />
             <button className="btn btn-info"
                 onClick={() => {
-                    if (numPagina.trim() !=="" && !isNaN(Number(numPagina))){
-                    navigate(`/sobre/${numPagina}`);
+                    if (numPagina.trim() !== "" && !isNaN(Number(numPagina))) {
+                        navigate(`/sobre/${numPagina}`);
                     } else {
                         alert("Digite um número válido zé mané")
                     }
@@ -71,7 +80,7 @@ export const Home = () => {
             >
                 Adicionar
             </button>
-                   <button
+            <button
                 className="btn btn-danger"
                 onClick={() => setTarefas(([]))}
             >
