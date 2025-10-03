@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
@@ -21,6 +21,14 @@ export const Usuario = () => {
                 console.log(erro)
             })
     }, [])
+
+    const excluirUsuario = useCallback(async (id: number) => { // vai ser asyncrona para nao utilizar o then nem o catch
+        await axios.delete(`http://localhost:3001/usuario/${id}`)
+
+        const { data } = await axios.get('http://localhost:3001/usuarios')
+
+        setUsuarios(data)
+    }, []);
 
     return (
         <>
@@ -77,6 +85,10 @@ export const Usuario = () => {
                                 <button
                                     className="btn btn-danger"
                                     type="button"
+                                    onClick={() => {
+                                        excluirUsuario(usuario.id);
+
+                                    }}
                                 >
                                     Excluir
                                 </button>
