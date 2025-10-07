@@ -6,29 +6,10 @@
       "email": "costela@gmail.com"
     },
     {
-      "id": 2,
-      "nome": "Geovane",
-      "email": "quinhone@gmail.com"
-    },
-    {
-      "id": 3,
-      "nome": "Claudio",
-      "email": "claudioemail@gmail.com"
-    },
-    {
-      "id": 4,
-      "nome": "dudu",
-      "email": "duduone@gmail.com"
-    },
-    {
-      "nome": "Xingling",
-      "email": "xingling@gmail.com",
-      "id": 5
-    },
-    {
-      "nome": "agora ainda é o dudu",
-      "email": "voltoududu@gmail.com",
-      "id": 6
+      "nome": "Novo amigo",
+      "email": "quinhone@gmail.com",
+      "permissao": "Admin",
+      "id": 2
     }
   ]
 }

@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { Loading } from "./../../components/Loading";
+import { Notificacao } from "./../../components/Notificacao";
 import axios from "axios"
+import './../../styles/style.css';
+
 
 interface iUsuario {
     id: number;
@@ -11,7 +15,10 @@ interface iUsuario {
 export const Usuario = () => {
     const navigate = useNavigate();
     const [usuarios, setUsuarios] = useState<iUsuario[]>([])
+    const [loading, setLoading] = useState(false);
+    const [notificacao, setNotificacao] = useState<{ mensagem: string; tipo?: "sucesso" | "erro" | "aviso" | "info" } | null>(null);
     useEffect(() => {
+        // Requisição no backend
         axios.get('http://localhost:3001/usuarios')
             .then((resposta) => {
                 setUsuarios(resposta.data)
@@ -22,16 +29,49 @@ export const Usuario = () => {
             })
     }, [])
 
-    const excluirUsuario = useCallback(async (id: number) => { // vai ser asyncrona para nao utilizar o then nem o catch
-        await axios.delete(`http://localhost:3001/usuario/${id}`)
+    const excluirUsuario = useCallback(async (id: number) => {
+        if (!window.confirm("Deseja realmente excluir este usuário?")) return;
 
-        const { data } = await axios.get('http://localhost:3001/usuarios')
+        setLoading(true);
+        const tempoInicioLoading = Date.now();
 
-        setUsuarios(data)
+        try {
+            await axios.delete(`http://localhost:3001/usuarios/${id}`);
+
+            // Atualiza a lista de usuários
+            const { data } = await axios.get("http://localhost:3001/usuarios");
+            setUsuarios(data);
+
+            // Mostra notificação de sucesso
+            setNotificacao({
+                mensagem: "Usuário excluído com sucesso!",
+                tipo: "sucesso",
+            });
+
+        } catch (erro) {
+            console.error(erro);
+            setNotificacao({
+                mensagem: "Erro ao excluir usuário!",
+                tipo: "erro",
+            });
+        } finally {
+            // garante que o loading fique visível por pelo menos 2 segundos
+            const tempoDecorrido = Date.now() - tempoInicioLoading;
+            const tempoRestante = Math.max(0, 2000 - tempoDecorrido);
+            setTimeout(() => setLoading(false), tempoRestante);
+        }
     }, []);
 
     return (
         <>
+            {loading && <Loading />}
+            {notificacao && (
+                <Notificacao
+                    mensagem={notificacao.mensagem}
+                    tipo={notificacao.tipo}
+                    onClose={() => setNotificacao(null)}
+                />
+            )}
             <div
                 style={{
                     display: 'flex',

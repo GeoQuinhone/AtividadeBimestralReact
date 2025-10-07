@@ -32,7 +32,7 @@ export const Home = () => {
             <button className="btn btn-primary"
                 onClick={
                     () => {
-                        navigate('/login/ Bem Vindo Geovane')
+                        navigate('/login')
                     }
                 }>Navegar Para a Pagina de Login</button>
             <br />

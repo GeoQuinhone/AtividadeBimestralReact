@@ -19,7 +19,7 @@ export const Rotas = () => {
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Home />} />
-                <Route path='/login/:parametro' element={<Login />} />
+                <Route path='/login' element={<Login />} />
                 <Route path='/produtos' element={<Produtos />} />
                 <Route path='/usuarios' element={<Usuario />} />
                 <Route path='/sobre/:id' element={<Sobre />} />
